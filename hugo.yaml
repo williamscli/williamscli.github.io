@@ -1,0 +1,8 @@
+baseURL: https://williamscli.github.io
+locale: en-us
+title: Clinton's Blog
+theme: PaperMod
+
+params:
+  ShowReadingTime: true
+  ShowCodeCopyButtons: true
