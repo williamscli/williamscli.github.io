@@ -1,0 +1,167 @@
+/* =====================================================================
+   GENYSYS THEME  ·  site-wide override for Hugo PaperMod
+   ---------------------------------------------------------------------
+   Drop this at:  assets/css/extended/custom.css
+   PaperMod auto-imports everything in assets/css/extended/ — no config
+   change needed. Fonts load via layouts/partials/extend_head.html.
+
+   To retune later, edit the token blocks below. You shouldn't need to
+   touch anything past the "TYPOGRAPHY" section for a color change.
+   Radius scale in use: 6 / 12 / 14 / 16 px.
+   ===================================================================== */
+
+/* ---- shared tokens (mode-independent) ---- */
+:root {
+  --gys-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --gys-mono: 'SF Mono', 'Monaco', 'Consolas', ui-monospace, monospace;
+  --gys-radius: 16px;   /* primary card radius */
+  --gys-radius-code: 14px;
+}
+
+/* =====================================================================
+   COLOR  ·  LIGHT MODE (matching variant)
+   ===================================================================== */
+:root {
+  --theme:          #F5F3EE;               /* page background      */
+  --entry:          #FFFFFF;               /* cards / entries      */
+  --primary:        #1A1815;               /* primary text         */
+  --content:        #1A1815;               /* long-form body text  */
+  --secondary:      rgba(26, 24, 21, 0.55);/* muted text           */
+  --tertiary:       rgba(26, 24, 21, 0.10);/* hover fills          */
+  --border:         rgba(26, 24, 21, 0.10);/* hairlines            */
+  --code-block-bg:  #0A0A0A;               /* code stays dark both modes */
+  --code-bg:        rgba(212, 175, 55, 0.15); /* inline code tint  */
+  --accent:         #9A7D22;               /* darkened gold for contrast */
+}
+
+/* =====================================================================
+   COLOR  ·  DARK MODE (the star)
+   ===================================================================== */
+.dark {
+  --theme:          #0C0C0C;               /* warm black, never #000 */
+  --entry:          #141414;
+  --primary:        rgba(255, 255, 255, 0.92);
+  --content:        rgba(255, 255, 255, 0.90);
+  --secondary:      rgba(255, 255, 255, 0.55);
+  --tertiary:       rgba(255, 255, 255, 0.12);
+  --border:         rgba(255, 255, 255, 0.08);
+  --code-block-bg:  #0A0A0A;
+  --code-bg:        rgba(212, 175, 55, 0.15);
+  --accent:         #D4AF37;               /* brand gold */
+}
+
+/* =====================================================================
+   TYPOGRAPHY
+   Base bumped to 18px / 1.6 for long-form reading. Headings carry the
+   Genysys signature: Inter 300, tight tracking. We keep PaperMod's size
+   hierarchy (helps scannability in a blog) but apply the light weight.
+   ===================================================================== */
+body {
+  font-family: var(--gys-sans);
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+h1, h2, h3, h4, h5, h6,
+.post-title,
+.entry-header h2,
+.page-header .title,
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  font-family: var(--gys-sans);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.post-title { font-weight: 300; }
+
+/* =====================================================================
+   LINKS & ACCENT
+   ===================================================================== */
+.post-content a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 3px;
+}
+.post-content a:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* first-entry / list titles pick up gold on hover */
+.first-entry .entry-header h1 a:hover,
+.post-entry .entry-header h2 a:hover,
+.entry-header h2 a:hover {
+  color: var(--accent);
+}
+
+/* active nav item underline */
+.menu .active { border-bottom: 2px solid var(--accent); }
+
+/* =====================================================================
+   ENTRY CARDS & SHAPE
+   ===================================================================== */
+.post-entry,
+.first-entry {
+  border: 1px solid var(--border);
+  border-radius: var(--gys-radius);
+}
+.post-entry:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+
+.entry-cover,
+.post-content img { border-radius: 12px; }
+
+/* =====================================================================
+   CODE  ·  blocks stay warm-black in both modes; inline is gold-tinted
+   ===================================================================== */
+.post-content pre {
+  background: var(--code-block-bg) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--gys-radius-code);
+}
+.post-content pre code { background: transparent !important; color: #E8E8E8; }
+
+/* inline code only (not code inside pre) */
+.post-content :not(pre) > code {
+  background: var(--code-bg);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: var(--gys-mono);
+  font-size: 0.88em;
+}
+
+/* copy button on code blocks */
+.post-content .highlight .copy-code { border-radius: 6px; }
+
+/* =====================================================================
+   MISC POLISH
+   ===================================================================== */
+.post-content blockquote {
+  border-inline-start: 3px solid var(--accent);
+  color: var(--secondary);
+}
+
+/* tags / terms */
+.post-tags a,
+.terms-tags a {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.post-tags a:hover,
+.terms-tags a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+hr { border-top: 1px solid var(--border); }
+
+/* search input (PaperMod search page) */
+#searchInput {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--entry);
+  color: var(--primary);
+}

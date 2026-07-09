@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Fixing &#39;Class Not Registered&#39; in Claude Code on OneDrive | Clinton&#39;s Blog</title>
+<meta name="keywords" content="windows, claude-code, onedrive, debugging, devtools">
+<meta name="description" content="Why Git Bash&rsquo;s mkdir fails on OneDrive folders in Claude Code, and the one-line fix that also unlocks editing .xlsx and .docx files in place.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/fixing-class-not-registered-onedrive/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.79cb6b349e75fa4b7d1c27916aa0725c13308bb4234f11c7b12519917f91b5e5.css" integrity="sha256-ectrNJ51&#43;kt9HCeRaqByXBMwi7QjTxHHsSUZkX&#43;RteU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/fixing-class-not-registered-onedrive/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="Clinton&#39;s Blog (Alt + H)">Clinton&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Fixing &#39;Class Not Registered&#39; in Claude Code on OneDrive
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-07-09 00:00:00 +0000 UTC'>July 9, 2026</span>&nbsp;·&nbsp;<span>4 min</span>
+
+</div>
+  </header> <details class="toc" >
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#the-symptom-one-command-two-outcomes" aria-label="The symptom: one command, two outcomes">The symptom: one command, two outcomes</a></li>
+            <li>
+                <a href="#root-cause-onedrive-folders-arent-quite-folders" aria-label="Root cause: OneDrive folders aren&rsquo;t quite folders">Root cause: OneDrive folders aren&rsquo;t quite folders</a></li>
+            <li>
+                <a href="#why-it-actually-matters-your-office-files" aria-label="Why it actually matters: your Office files">Why it actually matters: your Office files</a></li>
+            <li>
+                <a href="#the-fix-switch-claude-code-onto-the-native-powershell-tool" aria-label="The fix: switch Claude Code onto the native PowerShell tool">The fix: switch Claude Code onto the native PowerShell tool</a><ul>
+                    
+            <li>
+                <a href="#step-1--close-claude-code" aria-label="Step 1 — Close Claude Code">Step 1 — Close Claude Code</a></li>
+            <li>
+                <a href="#step-2--check-whether-a-settings-file-already-exists" aria-label="Step 2 — Check whether a settings file already exists">Step 2 — Check whether a settings file already exists</a></li>
+            <li>
+                <a href="#step-3a--file-doesnt-exist-create-it" aria-label="Step 3a — File doesn&rsquo;t exist: create it">Step 3a — File doesn&rsquo;t exist: create it</a></li>
+            <li>
+                <a href="#step-3b--file-exists-merge-the-key-in" aria-label="Step 3b — File exists: merge the key in">Step 3b — File exists: merge the key in</a></li>
+            <li>
+                <a href="#step-4--validate-the-json" aria-label="Step 4 — Validate the JSON">Step 4 — Validate the JSON</a></li>
+            <li>
+                <a href="#step-5--restart-and-confirm" aria-label="Step 5 — Restart and confirm">Step 5 — Restart and confirm</a></li>
+            <li>
+                <a href="#alternative-a-system-wide-flag" aria-label="Alternative: a system-wide flag">Alternative: a system-wide flag</a></li></ul>
+            </li>
+            <li>
+                <a href="#belt-and-suspenders" aria-label="Belt and suspenders">Belt and suspenders</a></li>
+            <li>
+                <a href="#tldr" aria-label="TL;DR">TL;DR</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>The same <code>mkdir</code> works in your terminal but fails in Claude Code with a cryptic COM error. The cause isn&rsquo;t Claude Code, and the cure is to stop routing shell commands through Git Bash.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>● Bash(mkdir &#34;C:\Users\...\OneDrive - Contoso\Desktop\test&#34;)
+</span></span><span style="display:flex;"><span>  ⎿  Error: Exit code 1
+</span></span><span style="display:flex;"><span>     Class not registered
+</span></span></code></pre></div><h2 id="the-symptom-one-command-two-outcomes">The symptom: one command, two outcomes<a hidden class="anchor" aria-hidden="true" href="#the-symptom-one-command-two-outcomes">#</a></h2>
+<p>You open your own terminal, run <code>mkdir</code> against a folder inside OneDrive, and it works. You ask Claude Code to run the exact same command, and it fails with <strong>&ldquo;Class not registered.&rdquo;</strong></p>
+<p>That asymmetry is the whole mystery, and it points straight at the answer. It looks like a Claude Code bug, but it isn&rsquo;t — it&rsquo;s two <em>different programs</em> both named <code>mkdir</code>, only one of which knows how to deal with a OneDrive folder.</p>
+<ul>
+<li>Your terminal (Command Prompt or PowerShell) uses the <strong>native Windows</strong> <code>mkdir</code>.</li>
+<li>Claude Code&rsquo;s Bash tool shells out to <strong>Git Bash</strong>, whose <code>mkdir</code> comes from MSYS2 — a POSIX emulation layer.</li>
+</ul>
+<p>Same three letters, two implementations. Native Windows handles the OneDrive folder correctly. The POSIX one walks straight into a wall.</p>
+<h2 id="root-cause-onedrive-folders-arent-quite-folders">Root cause: OneDrive folders aren&rsquo;t quite folders<a hidden class="anchor" aria-hidden="true" href="#root-cause-onedrive-folders-arent-quite-folders">#</a></h2>
+<p>With Files On-Demand switched on, OneDrive doesn&rsquo;t store your synced folders as ordinary directories. It stores them as <strong>reparse points</strong> — cloud placeholders that Windows resolves on the fly through a sync-provider <strong>COM object</strong> the first time a program touches them.</p>
+<p>Native Windows tools know how to trigger that resolution. Git Bash&rsquo;s MSYS2 <code>mkdir</code>, running as a child process spawned by Claude Code, ends up in a context where that COM class can&rsquo;t be instantiated. Windows returns error <code>0x80040154</code> — <code>REGDB_E_CLASSNOTREG</code> — which surfaces as the maddeningly vague <strong>&ldquo;Class not registered.&rdquo;</strong></p>
+<h2 id="why-it-actually-matters-your-office-files">Why it actually matters: your Office files<a hidden class="anchor" aria-hidden="true" href="#why-it-actually-matters-your-office-files">#</a></h2>
+<p>You might shrug at a failed directory create. Don&rsquo;t. The reason this is worth fixing is that <strong>real edits to <code>.xlsx</code> and <code>.docx</code> files run through the shell.</strong></p>
+<p>Those are binary formats. When Claude changes a cell, a formula, or document structure, it writes a small Python script (openpyxl, python-docx) and <em>runs</em> it — and running it goes through the Bash tool. If Bash can&rsquo;t operate inside your OneDrive folder, that entire workflow is dead in the water. Fix the shell and you unlock editing Office documents in place, right where they already sync.</p>
+<h2 id="the-fix-switch-claude-code-onto-the-native-powershell-tool">The fix: switch Claude Code onto the native PowerShell tool<a hidden class="anchor" aria-hidden="true" href="#the-fix-switch-claude-code-onto-the-native-powershell-tool">#</a></h2>
+<p>Claude Code can spawn PowerShell directly instead of Git Bash. PowerShell is a native Windows shell, so its file operations resolve OneDrive placeholders the same way your own terminal does — the &ldquo;Class not registered&rdquo; wall simply disappears.</p>
+<p>The switch is a single environment flag: <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=1</code>. You need Claude Code v2.1.84 or newer (check with <code>claude doctor</code>).</p>
+<h3 id="step-1--close-claude-code">Step 1 — Close Claude Code<a hidden class="anchor" aria-hidden="true" href="#step-1--close-claude-code">#</a></h3>
+<p>Settings and environment changes are only read on a fresh start.</p>
+<h3 id="step-2--check-whether-a-settings-file-already-exists">Step 2 — Check whether a settings file already exists<a hidden class="anchor" aria-hidden="true" href="#step-2--check-whether-a-settings-file-already-exists">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Test-Path <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.claude\settings.json&#34;</span>
+</span></span></code></pre></div><p><code>False</code> → create it (Step 3a). <code>True</code> → merge into it (Step 3b) so you don&rsquo;t clobber existing settings.</p>
+<h3 id="step-3a--file-doesnt-exist-create-it">Step 3a — File doesn&rsquo;t exist: create it<a hidden class="anchor" aria-hidden="true" href="#step-3a--file-doesnt-exist-create-it">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>New-Item -ItemType Directory -Force -Path <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.claude&#34;</span> | Out-Null
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">@&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;env&#34;: {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;CLAUDE_CODE_USE_POWERSHELL_TOOL&#34;: &#34;1&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;@</span> | Set-Content -Encoding utf8 <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.claude\settings.json&#34;</span>
+</span></span></code></pre></div><h3 id="step-3b--file-exists-merge-the-key-in">Step 3b — File exists: merge the key in<a hidden class="anchor" aria-hidden="true" href="#step-3b--file-exists-merge-the-key-in">#</a></h3>
+<p>Open it with <code>notepad &quot;$env:USERPROFILE\.claude\settings.json&quot;</code> and add the flag inside an <code>env</code> block. If an <code>&quot;env&quot;</code> section already exists, just add the line inside it (mind the comma):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;env&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;CLAUDE_CODE_USE_POWERSHELL_TOOL&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="step-4--validate-the-json">Step 4 — Validate the JSON<a hidden class="anchor" aria-hidden="true" href="#step-4--validate-the-json">#</a></h3>
+<p>A stray comma makes Claude Code silently ignore the file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Get-Content <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.claude\settings.json&#34;</span> -Raw | ConvertFrom-Json
+</span></span></code></pre></div><p>If it prints your settings back with no red error, you&rsquo;re good.</p>
+<h3 id="step-5--restart-and-confirm">Step 5 — Restart and confirm<a hidden class="anchor" aria-hidden="true" href="#step-5--restart-and-confirm">#</a></h3>
+<p>Start a fresh session and run the command that used to fail:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>mkdir &#34;C:\Users\...\OneDrive - Contoso\Desktop\test2&#34;
+</span></span></code></pre></div><p>No &ldquo;Class not registered&rdquo; means the switch took. Editing an existing <code>.xlsx</code> in that folder should now work end to end.</p>
+<h3 id="alternative-a-system-wide-flag">Alternative: a system-wide flag<a hidden class="anchor" aria-hidden="true" href="#alternative-a-system-wide-flag">#</a></h3>
+<p>Prefer an environment variable over a settings file? Set it once, then open a <strong>brand-new</strong> terminal so it&rsquo;s inherited:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>[<span style="color:#66d9ef">Environment</span>]::SetEnvironmentVariable(<span style="color:#e6db74">&#34;CLAUDE_CODE_USE_POWERSHELL_TOOL&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>, <span style="color:#e6db74">&#34;User&#34;</span>)
+</span></span></code></pre></div><h2 id="belt-and-suspenders">Belt and suspenders<a hidden class="anchor" aria-hidden="true" href="#belt-and-suspenders">#</a></h2>
+<p>The PowerShell switch is the fix. Two habits keep OneDrive from biting again:</p>
+<ul>
+<li><strong>Hydrate the folder.</strong> Right-click your working folder in Explorer → <em>&ldquo;Always keep on this device.&rdquo;</em> Cloud-only placeholders are the most fragile case.</li>
+<li><strong>Or sidestep OneDrive entirely.</strong> Have Claude work in a plain local folder like <code>C:\dev\</code> and only copy finished files into OneDrive. No reparse points, no COM, no surprises.</li>
+</ul>
+<p>One caveat: the PowerShell tool is a preview feature. It doesn&rsquo;t cover a couple of edge modes (auto-mode, Windows sandboxing) — none of which affect editing Office files on OneDrive.</p>
+<h2 id="tldr">TL;DR<a hidden class="anchor" aria-hidden="true" href="#tldr">#</a></h2>
+<ul>
+<li>&ldquo;Class not registered&rdquo; = Git Bash&rsquo;s <code>mkdir</code> can&rsquo;t resolve a OneDrive reparse point (COM error <code>0x80040154</code>).</li>
+<li>Your terminal works because it uses native Windows <code>mkdir</code>, not Git Bash.</li>
+<li>Set <code>CLAUDE_CODE_USE_POWERSHELL_TOOL=1</code> so Claude Code uses PowerShell — a native shell that resolves OneDrive folders correctly.</li>
+<li>Bonus: this is also what makes in-place <code>.xlsx</code> / <code>.docx</code> editing on OneDrive work, since those edits run through the shell.</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/windows/">Windows</a></li>
+      <li><a href="http://localhost:1313/tags/claude-code/">Claude-Code</a></li>
+      <li><a href="http://localhost:1313/tags/onedrive/">Onedrive</a></li>
+      <li><a href="http://localhost:1313/tags/debugging/">Debugging</a></li>
+      <li><a href="http://localhost:1313/tags/devtools/">Devtools</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Clinton&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
