@@ -1,167 +1,140 @@
 /* =====================================================================
-   GENYSYS THEME  ·  site-wide override for Hugo PaperMod
+   GENYSYS THEME  ·  site-wide PaperMod override  ·  dark-only brand
    ---------------------------------------------------------------------
-   Drop this at:  assets/css/extended/custom.css
-   PaperMod auto-imports everything in assets/css/extended/ — no config
-   change needed. Fonts load via layouts/partials/extend_head.html.
-
-   To retune later, edit the token blocks below. You shouldn't need to
-   touch anything past the "TYPOGRAPHY" section for a color change.
-   Radius scale in use: 6 / 12 / 14 / 16 px.
+   Path:  assets/css/extended/custom.css   (PaperMod auto-imports it)
+   Fonts: loaded via layouts/partials/extend_head.html (Inter 300-600)
+   Recommended hugo.yaml params:
+       defaultTheme: dark
+       disableThemeToggle: true
+   The brand is warm-black + gold; there is no real light variant, so we
+   apply it to both toggle states and hide the toggle. Reintroduce a light
+   mode later by splitting the token block into :root (light) / .dark.
+   Gold is structural only (accents, baseline markers). State = sage/rose.
    ===================================================================== */
 
-/* ---- shared tokens (mode-independent) ---- */
-:root {
-  --gys-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --gys-mono: 'SF Mono', 'Monaco', 'Consolas', ui-monospace, monospace;
-  --gys-radius: 16px;   /* primary card radius */
-  --gys-radius-code: 14px;
-}
-
-/* =====================================================================
-   COLOR  ·  LIGHT MODE (matching variant)
-   ===================================================================== */
-:root {
-  --theme:          #F5F3EE;               /* page background      */
-  --entry:          #FFFFFF;               /* cards / entries      */
-  --primary:        #1A1815;               /* primary text         */
-  --content:        #1A1815;               /* long-form body text  */
-  --secondary:      rgba(26, 24, 21, 0.55);/* muted text           */
-  --tertiary:       rgba(26, 24, 21, 0.10);/* hover fills          */
-  --border:         rgba(26, 24, 21, 0.10);/* hairlines            */
-  --code-block-bg:  #0A0A0A;               /* code stays dark both modes */
-  --code-bg:        rgba(212, 175, 55, 0.15); /* inline code tint  */
-  --accent:         #9A7D22;               /* darkened gold for contrast */
-}
-
-/* =====================================================================
-   COLOR  ·  DARK MODE (the star)
-   ===================================================================== */
-.dark {
-  --theme:          #0C0C0C;               /* warm black, never #000 */
-  --entry:          #141414;
-  --primary:        rgba(255, 255, 255, 0.92);
-  --content:        rgba(255, 255, 255, 0.90);
-  --secondary:      rgba(255, 255, 255, 0.55);
-  --tertiary:       rgba(255, 255, 255, 0.12);
-  --border:         rgba(255, 255, 255, 0.08);
+/* ---- tokens: same values for both states = one clean dark theme ---- */
+:root, .dark {
+  --theme:          #0C0C0C;                 /* warm black, never #000 */
+  --entry:          rgba(255,255,255,0.04);
+  --primary:        rgba(255,255,255,0.92);  /* the command   */
+  --secondary:      rgba(255,255,255,0.55);  /* supporting    */
+  --tertiary:       rgba(255,255,255,0.35);  /* labels        */
+  --content:        rgba(255,255,255,0.82);  /* long-form body*/
+  --border:         rgba(255,255,255,0.08);
   --code-block-bg:  #0A0A0A;
-  --code-bg:        rgba(212, 175, 55, 0.15);
-  --accent:         #D4AF37;               /* brand gold */
+  --code-bg:        rgba(255,255,255,0.06);
+
+  /* brand */
+  --gold:#D4AF37; --sage:#7DD3A8; --rose:#D87A8A; --blue:#6BA3D9;
+  --border-soft:rgba(255,255,255,0.06);
+  --ease:cubic-bezier(0.16, 1, 0.3, 1);
+  --gys-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --gys-mono:'SF Mono',Monaco,Consolas,ui-monospace,monospace;
+  --radius:16px;
 }
 
-/* =====================================================================
-   TYPOGRAPHY
-   Base bumped to 18px / 1.6 for long-form reading. Headings carry the
-   Genysys signature: Inter 300, tight tracking. We keep PaperMod's size
-   hierarchy (helps scannability in a blog) but apply the light weight.
-   ===================================================================== */
+/* ---- foundation ---- */
+html, body { background: var(--theme); color: var(--primary); }
 body {
   font-family: var(--gys-sans);
-  font-size: 18px;
-  line-height: 1.6;
-  letter-spacing: -0.005em;
+  font-size: 16px; line-height: 1.6; letter-spacing: -0.003em;
+  -webkit-font-smoothing: antialiased;
+  /* subtle warm cinematic glow at the top, fixed so it doesn't scroll away */
+  background:
+    radial-gradient(90% 42% at 50% 0%, rgba(212,175,55,0.06), transparent 60%),
+    var(--theme);
+  background-attachment: fixed;
 }
+::selection { background: rgba(212,175,55,0.28); }
 
+/* ---- typography: hierarchy through weight, not size ---- */
 h1, h2, h3, h4, h5, h6,
-.post-title,
-.entry-header h2,
-.page-header .title,
-.post-content h1,
-.post-content h2,
-.post-content h3,
-.post-content h4 {
-  font-family: var(--gys-sans);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+.post-title, .entry-header h1, .entry-header h2, .page-header .title {
+  font-family: var(--gys-sans); font-weight: 300; letter-spacing: -0.02em; color: var(--primary);
+}
+.post-title { font-weight: 300; line-height: 1.15; }
+.post-content { color: var(--content); font-size: 16px; }
+.post-content p { color: var(--content); }
+.post-content h2 { margin-top: 1.9em; }
+
+/* ---- masthead / nav ---- */
+.nav { border-bottom: 1px solid var(--border-soft); }
+.logo a { font-weight: 600; letter-spacing: -0.01em; color: var(--primary); }
+#menu a { color: var(--secondary); font-size: 14px; transition: color 200ms var(--ease); }
+#menu a:hover { color: var(--primary); }
+.menu .active { border-bottom: 2px solid var(--gold); }
+
+/* ---- micro-label gesture on meta rows ---- */
+.post-meta, .archive-meta {
+  font-size: 11px !important; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--tertiary) !important; font-weight: 500;
 }
 
-.post-title { font-weight: 300; }
+/* ---- ENTRY CARDS: the glass recipe ---- */
+.post-entry, .first-entry {
+  position: relative; overflow: hidden; border-radius: var(--radius);
+  background: linear-gradient(rgba(0,0,0,0.32), rgba(0,0,0,0.32)), rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: border-color 400ms var(--ease), transform 400ms var(--ease);
+}
+.post-entry::before, .first-entry::before {              /* top sheen */
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 60px; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent);
+}
+.post-entry:hover { border-color: rgba(212,175,55,0.35); transform: translateY(-2px); }
+.entry-header h2 { font-size: 22px; }
+.entry-content { color: var(--secondary); }
 
-/* =====================================================================
-   LINKS & ACCENT
-   ===================================================================== */
+/* ---- links: gold as accent underline, never fill (gold stays structural) ---- */
 .post-content a {
-  color: var(--accent);
-  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
-  text-underline-offset: 3px;
+  color: var(--primary); text-decoration: none;
+  border-bottom: 1px solid rgba(212,175,55,0.5);
+  transition: color 200ms var(--ease), border-color 200ms var(--ease);
 }
-.post-content a:hover {
-  text-decoration-color: var(--accent);
-}
+.post-content a:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
-/* first-entry / list titles pick up gold on hover */
-.first-entry .entry-header h1 a:hover,
-.post-entry .entry-header h2 a:hover,
-.entry-header h2 a:hover {
-  color: var(--accent);
-}
-
-/* active nav item underline */
-.menu .active { border-bottom: 2px solid var(--accent); }
-
-/* =====================================================================
-   ENTRY CARDS & SHAPE
-   ===================================================================== */
-.post-entry,
-.first-entry {
-  border: 1px solid var(--border);
-  border-radius: var(--gys-radius);
-}
-.post-entry:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
-
-.entry-cover,
-.post-content img { border-radius: 12px; }
-
-/* =====================================================================
-   CODE  ·  blocks stay warm-black in both modes; inline is gold-tinted
-   ===================================================================== */
+/* ---- code ---- */
 .post-content pre {
-  background: var(--code-block-bg) !important;
-  border: 1px solid var(--border);
-  border-radius: var(--gys-radius-code);
+  background: #0A0A0A !important; border: 1px solid var(--border); border-radius: 14px;
 }
-.post-content pre code { background: transparent !important; color: #E8E8E8; }
-
-/* inline code only (not code inside pre) */
+.post-content pre code { background: transparent !important; color: rgba(255,255,255,0.85); }
 .post-content :not(pre) > code {
-  background: var(--code-bg);
-  color: var(--accent);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-family: var(--gys-mono);
-  font-size: 0.88em;
+  background: var(--code-bg); color: rgba(255,255,255,0.9);
+  font-family: var(--gys-mono); border-radius: 6px; padding: 2px 6px; font-size: 0.86em;
+}
+.post-content .highlight .copy-code {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 6px; color: var(--secondary);
 }
 
-/* copy button on code blocks */
-.post-content .highlight .copy-code { border-radius: 6px; }
-
-/* =====================================================================
-   MISC POLISH
-   ===================================================================== */
+/* ---- blockquote → pull-quote ---- */
 .post-content blockquote {
-  border-inline-start: 3px solid var(--accent);
-  color: var(--secondary);
+  background: rgba(0,0,0,0.45); border: 1px solid var(--border-soft);
+  border-inline-start: 2px solid var(--gold); border-radius: 14px;
+  padding: 18px 22px; color: var(--primary); font-weight: 300;
 }
 
-/* tags / terms */
-.post-tags a,
-.terms-tags a {
-  border: 1px solid var(--border);
-  border-radius: 12px;
+/* ---- tags → neutral pills, gold on hover ---- */
+.post-tags a, .terms-tags a {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 9999px;
+  padding: 6px 14px; color: var(--secondary); font-size: 12px; letter-spacing: 0.06em;
+  transition: color 200ms var(--ease), border-color 200ms var(--ease);
 }
-.post-tags a:hover,
-.terms-tags a:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.post-tags a:hover, .terms-tags a:hover { border-color: var(--gold); color: var(--gold); }
 
-hr { border-top: 1px solid var(--border); }
+/* ---- misc ---- */
+.post-content hr { border-top: 1px solid var(--border-soft); }
+.post-content img { border-radius: 12px; }
+.post-content table { border-radius: 12px; overflow: hidden; }
+.post-content table th { background: rgba(255,255,255,0.04); font-weight: 500; }
 
-/* search input (PaperMod search page) */
 #searchInput {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--entry);
-  color: var(--primary);
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 14px; color: var(--primary);
 }
+#searchInput:focus { border-color: rgba(212,175,55,0.4); outline: none; }
+
+.paginav, .page-link, .pagination a { border: 1px solid var(--border); border-radius: 12px; color: var(--secondary); }
+.paginav a:hover, .page-link:hover { border-color: var(--gold); color: var(--gold); }
+
+.footer { color: var(--tertiary); font-size: 12px; letter-spacing: 0.04em; border-top: 1px solid var(--border-soft); }
+.footer a { color: var(--secondary); }

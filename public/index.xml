@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Clinton&#39;s Blog</title>
+    <title>Your Blog Name</title>
     <link>http://localhost:1313/</link>
-    <description>Recent content on Clinton&#39;s Blog</description>
+    <description>Recent content on Your Blog Name</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 09 Jul 2026 00:00:00 +0000</lastBuildDate>
@@ -13,7 +13,7 @@
       <link>http://localhost:1313/posts/fixing-class-not-registered-onedrive/</link>
       <pubDate>Thu, 09 Jul 2026 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/fixing-class-not-registered-onedrive/</guid>
-      <description>Why Git Bash&amp;rsquo;s mkdir fails on OneDrive folders in Claude Code, and the one-line fix that also unlocks editing .xlsx and .docx files in place.</description>
+      <description>Why Git Bash&amp;rsquo;s mkdir fails on OneDrive folders in Claude Code, and the one-line fix that also unlocks editing .xlsx and .docx in place.</description>
     </item>
   </channel>
 </rss>
